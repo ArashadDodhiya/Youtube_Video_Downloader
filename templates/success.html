@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Success</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Download Complete!</h1>
+        <div class="video-info">
+            <img src="{{ thumbnail }}" alt="Video thumbnail" class="thumbnail">
+            <h2>{{ title }}</h2>
+        </div>
+        <div class="download-section">
+            <a href="{{ url_for('download', filename=filename) }}" class="download-btn">Download File</a>
+            <a href="{{ url_for('index') }}" class="back-btn">Download Another Video</a>
+        </div>
+    </div>
+</body>
+</html>
