@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
@@ -42,8 +58,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 50px) scale(1.1); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(50px, 50px) scale(1.1);
+            }
         }
 
         /* Dashboard Layout */
@@ -65,8 +88,15 @@
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header-content {
@@ -96,8 +126,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .logo-text h1 {
@@ -169,8 +206,15 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card-header {
@@ -424,13 +468,18 @@
             left: 0;
             bottom: 0;
             right: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: shimmer 2s infinite;
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         .progress-info {
@@ -465,8 +514,15 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .alert.show {
@@ -518,7 +574,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Recent Downloads */
@@ -610,6 +668,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="background"></div>
 
@@ -649,12 +708,8 @@
                 <div class="input-group">
                     <label class="input-label">Paste YouTube Link</label>
                     <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            class="input-field" 
-                            id="videoUrl" 
-                            placeholder="https://www.youtube.com/watch?v=..."
-                        >
+                        <input type="text" class="input-field" id="videoUrl"
+                            placeholder="https://www.youtube.com/watch?v=...">
                     </div>
                 </div>
 
@@ -704,7 +759,7 @@
                 </div>
 
                 <img id="thumbnail" class="video-thumbnail" src="" alt="Video Thumbnail">
-                
+
                 <div class="video-details">
                     <h3 class="video-title" id="title"></h3>
                     <div class="video-meta">
@@ -756,7 +811,7 @@
 
         // Quality selection
         document.querySelectorAll('.quality-option').forEach(option => {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function () {
                 document.querySelectorAll('.quality-option').forEach(o => o.classList.remove('active'));
                 this.classList.add('active');
                 selectedQuality = this.dataset.quality;
@@ -777,8 +832,8 @@
             try {
                 const response = await fetch('/api/video-info', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({url: url})
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
                 });
 
                 const data = await response.json();
@@ -822,7 +877,7 @@
             try {
                 const response = await fetch('/api/download', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         url: url,
                         quality: selectedQuality,
@@ -857,7 +912,7 @@
                     if (data.status === 'downloading' || data.status === 'processing') {
                         const percent = parseInt(data.percent) || 0;
                         document.getElementById('progressBar').style.width = percent + '%';
-                        document.getElementById('progressStatus').textContent = 
+                        document.getElementById('progressStatus').textContent =
                             data.status === 'downloading' ? '⬇️ Downloading...' : '⚙️ Processing...';
                         document.getElementById('progressSpeed').textContent = `Speed: ${data.speed}`;
                         document.getElementById('progressETA').textContent = `ETA: ${data.eta}`;
@@ -903,11 +958,12 @@
         }
 
         // Enter key support
-        document.getElementById('videoUrl').addEventListener('keypress', function(e) {
+        document.getElementById('videoUrl').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 fetchVideoInfo();
             }
         });
     </script>
 </body>
+
 </html>
